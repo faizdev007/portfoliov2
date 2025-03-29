@@ -1,0 +1,28 @@
+<div class="bg-white dark:bg-gray-900 p-6 mb-8 relative h-40 rounded-lg shadow-md">
+                        <!-- Avatar Upload -->
+                        <div x-data="{ avatarPreview: `{{ Storage::url('profile/avtar.png') }}` }" class="absolute -top-3 -left-3 z-50 mb-6">
+                            <label class="block hidden text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Avatar</label>
+                            <div class="flex items-center space-x-4">
+                                <!-- Clickable Image for Upload -->
+                                <div class="w-20 h-20 rounded-full overflow-hidden border-2 dark:border-gray-700 cursor-pointer" @click="$refs.avatarInput.click()">
+                                    <img :src="avatarPreview || ''" class="object-cover w-full h-full" alt="Avatar">
+                                </div>
+                                <!-- Hidden File Input -->
+                                <input type="file" @change="let file = $event.target.files[0]; avatarPreview = URL.createObjectURL(file)" class="hidden" name="avtar" x-ref="avatarInput">
+                            </div>
+                        </div>
+                    
+                        <!-- Cover Photo Upload -->
+                        <div x-data="{ coverPreview: `{{ Storage::url('profile/placeholder.jpg') }}` }" class="absolute h-full right-0 top-0 w-full">
+                            <label class="block text-sm font-medium hidden text-gray-700 dark:text-gray-200 mb-2">Cover Photo</label>
+                            <div class="w-full h-full rounded-lg overflow-hidden border dark:border-gray-700">
+                                <img :src="coverPreview || ''" class="object-cover w-full h-full" alt="Cover">
+                            </div>
+                            <input type="file" @change="let file = $event.target.files[0]; coverPreview = URL.createObjectURL(file)" class="hidden" name="coverimg" id="coverInput">
+                            <label for="coverInput" class="absolute bg-gray-400 opacity-75 top-0 right-0 inline-block p-2 m-1 dark:text-white text-sm rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                </svg>                                  
+                            </label>
+                        </div>
+                    </div>

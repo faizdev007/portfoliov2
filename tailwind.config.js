@@ -17,7 +17,9 @@ export default {
                 caveat: ["Caveat", "cursive"], // Add Caveat font here
                 barriecito: ["Barriecito", "system-ui"],
                 doto: ["Doto", "system-ui"],
-                bungeeShade:["Bungee Shade", "sans-serif"]
+                bungeeShade:["Bungee Shade", "sans-serif"],
+                orbitron:["Orbitron", "sans-serif"],
+                kalam:["Kalam", "cursive"],
             },
             colors: {
                 blue1: "#EBE5C2", // Custom primary blue
