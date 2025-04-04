@@ -32,7 +32,7 @@ abstract class Controller
 
     public static function generateUniqueSlug($slug)
     {
-        $count = \App\Models\BasicInformation::where('user_slug', 'LIKE', "$slug%")->count();
+        $count = \App\Models\BasicInformation::where('portfolioname', 'LIKE', "$slug%")->count();
         return $count ? "{$slug}-" . ($count + 1) : $slug;
     }
 

@@ -25,7 +25,7 @@
                     <div class="md:w-auto hidden md:flex shadow-md drop-shadow dark:bg-gray-800 h-full" id='sidebar'>
                         @include('layouts.sidebar')
                     </div>
-                    <div class="flex-1 overflow-y-auto">
+                    <div class="flex-1 overflow-y-auto relative">
                         <!-- Page Heading -->
                         @isset($header)
                             <header class="bg-white dark:bg-gray-800 shadow">

@@ -12,17 +12,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('blogs', function (Blueprint $table) {
+        Schema::create('additional_information', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->string('title')->nullable();
-            $table->string('slug')->nullable();
-            $table->text('description')->nullable();
-            $table->text('content')->nullable();
-            $table->json('tags')->nullable();
-            $table->string('thumbnail')->nullable();
-            $table->softDeletes();
+            $table->json('education')->nullable();
+            $table->json('experience')->nullable();
+            $table->json('certifications')->nullable();
+            $table->json('references')->nullable();
+            // $table->json('custom_fields')->nullable();
+            // $table->text('meta')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('additional_information');
     }
 };

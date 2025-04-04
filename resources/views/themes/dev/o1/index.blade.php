@@ -2,7 +2,7 @@
     <section class="max-w-7xl py-8 mx-auto px-4 sm:px-6 lg:px-8 sm:grid md:grid-flow-col md:grid-cols-3 gap-4 overflow-hidden transition duration-150 ease-in-out">
         <div class="flex justify-center md:justify-between items-center sm:px-0 px-4 mb-6">
             <div class="p-4 bg-yellow-400 flex justify-center rounded-xl overflow-hidden">
-                <img class="aspect-2/3 w-80 object-cover transition-transform duration-300 hover:scale-110" src="{{ Storage::url('profile/profile1.jpeg') }}"/>
+                <img class="aspect-2/3 w-80 object-cover transition-transform duration-300 hover:scale-110" src="{{ isset($basicinfo->avatar) ? Storage::url("avatars/$basicinfo->avatar") : Storage::url("profile/avatar.png") }}"/>
             </div>
         </div>
         <div class="dark:text-white md:col-span-2 sm:px-6 lg:px-8 py-8 dark:text-white transition-transform duration-300 animate-slideIn">
@@ -12,7 +12,7 @@
                 {{-- Developer --}}
                 <p>---- {{ $basicinfo->job_title ?? 'Developer' }}</p>
             </h1> 
-            <p class="mb-4 text-justify">{{ $basicinfo->short_describtion ??   "I'm a passionate Full-Stack Developer with expertise in Laravel, Next.js, PostgreSQL, and MongoDB. With hands-on experience in building web applications, eCommerce platforms, and ERP systems, I specialize in creating efficient and scalable solutions. I have a strong background in Laravel Eloquent, JavaScript, and database management, and I’m always eager to learn and implement new technologies. Currently, I’m exploring AI integrations in Laravel and enhancing my skills in PostgreSQL and Next.js." }}</p>
+            <p class="mb-4 text-justify">{!! $basicinfo->short_describtion ??   "I'm a passionate Full-Stack Developer with expertise in Laravel, Next.js, PostgreSQL, and MongoDB. With hands-on experience in building web applications, eCommerce platforms, and ERP systems, I specialize in creating efficient and scalable solutions. I have a strong background in Laravel Eloquent, JavaScript, and database management, and I’m always eager to learn and implement new technologies. Currently, I’m exploring AI integrations in Laravel and enhancing my skills in PostgreSQL and Next.js." !!}</p>
             <div class="flex relative gap-5 mb-4">
                 <a href="{{ route('register') }}" class="align-center hidden flex gap-4 my-3 rounded-full border border-blue-600 dark:border-gray-500 text-white bg-blue-500 hover:bg-blue-600 dark:bg-gray-800 dark:hover:bg-gray-700 p-3 px-4">About Me 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -29,9 +29,9 @@
                 </div>
             </div>
             <div class="flex gap-2">
-                <strong class="md:text-6xl text-5xl font-bungeeShade">{{ $basicinfo->name[0] ?? "F"}}.</strong>
+                <strong class="md:text-6xl text-5xl font-bungeeShade">{{ $basicinfo->fullname[0] ?? "F"}}.</strong>
                 <strong class="md:text-xl">
-                    <p class="md:text-3xl font-kalam">{{ $basicinfo->name ?? "Your Name"}}</p>
+                    <p class="md:text-3xl font-kalam">{{ $basicinfo->fullname ?? "Your Name"}}</p>
                     <a class="font-bungeeShade" href="mailto:faizdev007@gmail.com">{{ $basicinfo->email ?? "example@email.com"}}</a>
                 </strong>
             </div>
@@ -116,11 +116,35 @@
             </x-themes.dev.o1.actionbutton>
         </div>
         <div class="grid grid-flow-column md:grid-cols-2 gap-4 py-8">
+            @if (isset($basicinfo->user->projects))    
+                @foreach ($basicinfo->user->projects as $project)
+                    <div class="sm:grid flex sm:grid-cols-2 sm:grid-flow-col flex-col-reverse gap-4 w-full rounded-xl dark:bg-gray-800 dark:border-gray-500 border border-gray-300 p-4 shadow drop-shadow bg-blue2">
+                        <div class="flex flex-col justify-between gap-2 {{ isset($project) ?? 'animate-pulse'}}">
+                            <div class="">
+                                <div class="font-bold text-lg {{ isset($project) ?? 'h-6 bg-gray-400 w-3/4'}} rounded" title="{{ $project->title ?? 'Project Title' }}">{{ $project->title ?? 'Project Title' }}</div>
+                                <div class="text-sm {{ isset($project) ?? 'h-4 bg-gray-400 w-5/6'}} rounded line-clamp-3" title="{{ $project->short_description ?? 'Short Description' }}">{{ $project->short_description ?? 'Short Description' }}</div>
+                            </div>
+                            <div class="h-10 {{ isset($project) ?? 'bg-gray-400'}} rounded">
+                                <a href="{{ $project->url ?? '#' }}" target="_blank" class="justify-center gap-4 rounded-full border border-gray-600 dark:border-gray-500 text-white bg-gray-700 hover:bg-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700 p-3 px-4 h-10 items-center transition duration-150 ease-in-out flex w-fit hover:px-8 transition-all my-0">Case Study
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                                    </svg>                                          
+                                </a>
+                            </div>
+                        </div>
+                        <div class="rounded-xl overflow-hidden border border-dark border border-gray-900 {{ isset($project->thumbnail) ?? 'animate-pulse' }}">
+                            <img src="{{ Storage::url('projects/'.$project->thumbnail) ?? Storage::url('profile/profile1.jpeg') }}" alt="Project Thumbnail" class="w-full aspect-[2/1] h-full fill-current {{ isset($project) ?? 'bg-gray-400'}}">
+                        </div>
+                    </div>
+                @endforeach
+            @else
             <div class="sm:grid flex sm:grid-cols-2 sm:grid-flow-col flex-col-reverse gap-4 w-full rounded-xl dark:bg-gray-800 dark:border-gray-500 border border-gray-300 p-4 shadow drop-shadow bg-blue2">
-                <div class="flex flex-col justify-center gap-2">
-                    <h3 class="text-2xl font-kalam">Title</h3>
-                    <p>project info</p>
-                    <x-themes.dev.o1.actionbutton class="flex w-fit" href="#">Case Study
+                <div class="flex flex-col justify-between gap-2">
+                    <div class="">
+                        <h3 class="text-2xl font-kalam">Title</h3>
+                        <p>project info</p>
+                    </div>
+                    <x-themes.dev.o1.actionbutton class="flex w-fit hover:px-8 transition-all my-0" href="#">Case Study
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
                         </svg>
@@ -130,6 +154,7 @@
                     <img class="object-cover aspect-[2/1]" src="{{ Storage::url('profile/profile1.jpeg') }}" alt="project image">
                 </div>
             </div>
+            @endif
         </div>
         <x-themes.dev.o1.actionbutton class="md:hidden flex">
             Browse All

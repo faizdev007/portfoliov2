@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Quill from 'quill';
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -50,4 +51,97 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }
     });
+
+    if(document.getElementById('posteditor') != undefined){
+        const options = {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['link', 'blockquote', 'image', 'code-block'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                ],
+            },
+            placeholder: 'write you blog here...',
+            theme: 'snow'
+          };
+        const quill = new Quill('#posteditor', options);
+
+        // document.getElementById('blogform').addEventListener('submit', function (event) {
+        //     event.preventDefault(); // Prevent default form submission
+        //     document.getElementById('blogpost').value = quill.root.innerHTML; // Store HTML content
+    
+        //     // Now submit the form
+        //     this.submit();
+        // });
+
+
+        document.getElementById('postForm').addEventListener('submit', function (event) {
+            document.getElementById('postcontent').value = quill.root.innerHTML; // Store Quill content
+        });
+    }
+
+    if(document.getElementById('quilldescription') != undefined){
+        const options = {
+            modules: {
+              toolbar: true,
+            },
+            placeholder: 'Write About Your self...',
+            theme: 'snow'
+        };
+
+        const quill = new Quill('#quilldescription', options);
+
+        document.getElementById('projectform').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            document.getElementById('description').value = quill.root.innerHTML; // Store HTML content
+    
+            // Now submit the form
+            this.submit();
+        });
+    }
+
+
+
+    // profile edit area quill editor
+
+    if(document.getElementById('myselfeditor') != undefined){
+        const options = {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['link', 'blockquote', 'code-block'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                ],
+            },
+            placeholder: 'write here...',
+            theme: 'snow'
+          };
+        const quill = new Quill('#myselfeditor', options);
+
+        document.getElementById('profileeditor').addEventListener('submit', function (event) {
+            document.getElementById('myselfdata').value = quill.root.innerHTML; // Store Quill content
+        });
+    }
+
+    if(document.getElementById('summaryeditor') != undefined){
+        const options = {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['link', 'blockquote', 'code-block'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                ],
+            },
+            placeholder: 'write here...',
+            theme: 'snow'
+          };
+        const quill = new Quill('#summaryeditor', options);
+
+        document.getElementById('profileeditor').addEventListener('submit', function (event) {
+            document.getElementById('summarydata').value = quill.root.innerHTML; // Store Quill content
+        });
+    }
 });

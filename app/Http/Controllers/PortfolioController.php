@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BasicInformation;
+use App\Models\Projects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -18,13 +19,16 @@ class PortfolioController extends Controller
         if(!auth()->check()){
             return redirect()->route('login');
         }
-        $basicinfo = BasicInformation::where('user_id', Auth::user()->id)->first();
+        $basicinfo = BasicInformation::with(['user','user.projects'=> function ($query) {
+            $query->limit(6);
+        }])->where('user_id', Auth::user()->id)->first();
         return view('themes.dev.o1.index',compact('basicinfo'));
     }
 
     public function projects()
     {
-        return view('themes.dev.o1.projects');
+        $projects = Projects::where('user_id',Auth::id())->latest()->paginate(10);
+        return view('themes.dev.o1.projects',compact('projects'));
     }
 
     public function posts()
@@ -32,4 +36,8 @@ class PortfolioController extends Controller
         return view('themes.dev.o1.posts');
     }
 
+    public function updateskill(Request $request)
+    {
+        dd($request->all());
+    }
 }

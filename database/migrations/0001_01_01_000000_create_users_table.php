@@ -17,8 +17,22 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->text('summary')->nullable();
+            $table->string('profile_name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
+            $table->string('company')->nullable();
+            $table->string('job_title')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('cover')->nullable();
+            $table->text('about_myself')->nullable();
+            // $table->boolean('is_public')->default(false);
+            // $table->boolean('is_searchable')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

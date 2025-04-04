@@ -24,7 +24,7 @@
                     </div>
                 @endif
 
-                <form x-data="formHandler()" action="{{ Route('portfolio.store') }}" method="POST" enctype="multipart/form-data">
+                <form x-data="formHandler()" id="aboutform" action="{{ Route('portfolio.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class=" mb-8 relative flex gap-2">
                         <!-- Avatar Upload -->
@@ -57,24 +57,21 @@
                     
                     <div class="md:flex gap-2 mb-6">
                         <div class="w-full mb-2">
-                            <label class="block">Full Name</label>
-                            {{-- <input type="text" name="fullname" value="{{old('fullname',$info->fullname ?? '')}}" required class="w-full border-b-2 p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-gray-100"> --}}
+                            <label class="block font-bold text-xl">Full Name</label>
                             <x-text-input type="" type="text" name="fullname" class="w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0" value="{{old('fullname',$info->fullname ?? '')}}" required ></x-text-input>
                             @error('fullname')
                                 <x-input-error messages="{{ $error }}"></x-input-error>
                             @enderror
                         </div>
                         <div class="w-full mb-2">
-                            <label class="block">Portfilio Name</label>
-                            {{-- <input type="text" name="portfolioname" value="{{old('portfolioname',$info->portfolioname ?? '')}}" required class="w-full border p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-gray-100"> --}}
+                            <label class="block font-bold text-xl">Portfilio Name</label>
                             <x-text-input type="" type="text" name="portfolioname" class="w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0" value="{{old('portfolioname',$info->portfolioname ?? '')}}" required></x-text-input>
                             @error('portfolioname')
                                 <x-input-error messages="{{ $error }}"></x-input-error>
                             @enderror
                         </div>
                         <div class="w-full mb-2">
-                            <label class="block">Email</label>
-                            {{-- <input type="text" name="email" value="{{old('email',$info->email ?? '')}}" required class="w-full border p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-gray-100"> --}}
+                            <label class="block font-bold text-xl">Email</label>
                             <x-text-input type="" type="text" name="email" class="w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0" value="{{old('email',$info->email ?? '')}}" required> </x-text-input>
                             @error('email')
                                 <x-input-error messages="{{ $error }}"></x-input-error>
@@ -84,25 +81,25 @@
 
                     <!-- Text Fields -->
                     <div>
-                        <label class="block">Title</label>
+                        <label class="block font-bold text-xl">Title</label>
                         <div class="md:flex gap-2">
-                            <x-text-input type="text" name="title" value="{{old('title'),$info->title ?? '' }}" required class="w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0"></x-text-input>
-                            <x-text-input type="text" name="job_title" value="{{old('job_title') , $info->job_title ?? ''}}" required class="w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0"></x-text-input>
-                            {{-- <input  class="w-full mb-2 border p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-gray-100">
-                            <input class="w-full mb-2 border p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-gray-100"> --}}
+                            <x-text-input type="text" name="title" value="{{$info->title ?? old('title') }}" required class="w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0"></x-text-input>
+                            <x-text-input type="text" name="job_title" value="{{$info->job_title ?? old('job_title')}}" required class="w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0"></x-text-input>
                         </div>
                     </div>
                     
                     <!-- Bio -->
                     <div class="mt-4">
-                        <label class="block">short about me</label>
-                        <textarea name="short_describtion" rows="4" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0">{{$info->short_describtion ?? old('short_describtion') }}</textarea>
+                        <label class="block font-bold text-2xl">short about me</label>
+                        <div class="dark:bg-gray-900 bg-gray-200" id="short_aboutedit">{{$info->short_describtion ?? old('short_describtion') }}</div>
+                        <input type="hidden" name="short_describtion" id="shortaboutcontent" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0"/>
                     </div>
 
                     <!-- Bio -->
                     <div class="mt-4">
-                        <label class="block">Bio</label>
-                        <textarea name="bio" rows="10" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0">{{$info->bio ?? old('bio') }}</textarea>
+                        <label class="block font-bold text-2xl">Bio</label>
+                        <div class="dark:bg-gray-900 bg-gray-200" id="bioeditor">{!! $info->bio ?? old('bio') !!}</div>
+                        <input type="hidden" name="bio" id="biocontent" class="border-gray-300  dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full border-b-2 bg-gray-200 rounded-none border-gray-800 border-x-0 border-t-0"/>
                     </div>
 
                     <!-- Dynamic Fields -->
@@ -110,7 +107,7 @@
 
                     <div class="mb-6">
                         <div id="educationFields">
-                            <label>Education Information</label>
+                            <label class="font-bold text-lg">Education Information</label>
                             @if (isset($info) && $info->education)
                                 @foreach (json_decode($info->education) as $edu)
                                     <div class="education-group md:flex gap-2 mt-4">
@@ -130,7 +127,7 @@
                     
                     <div class="mb-6">
                         <div id="experienceFields">
-                            <label>Your Experiance</label>
+                            <label class="font-bold text-lg">Your Experiance</label>
                             @if (isset($info) && $info->experience)
                                 @foreach (json_decode($info->experience) as $exp)
                                     <div class="experience-group mt-4 md:flex gap-2">
@@ -150,9 +147,10 @@
                     
                         <button type="button" id="addExperience" class="mt-2 text-blue-500">+ Add Experience</button>
                     </div>
+
                     <div class="mb-6">
                         <div id="certificationFields">
-                            <label>Your Certification</label>
+                            <label class="font-bold text-lg">Your Certification</label>
                             @if (isset($info) && $info->certifications)
                                 @foreach (json_decode($info->certifications) as $cert)
                                     <div class="certification-group mt-4 md:flex gap-2">
@@ -171,7 +169,7 @@
                         </div>
                     
                         <button type="button" id="addCertification" class="mt-2 text-blue-500">+ Add Certification</button>                    
-                    </div> 
+                    </div>
                     <!-- Submit Button -->
                     <button type="submit" class="mt-6 w-full text-white px-4 py-2 uppercase bg-gray-700 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500">Update</button>
                 </form>
